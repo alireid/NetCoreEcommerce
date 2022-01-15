@@ -1,0 +1,158 @@
+﻿@model NetCoreEcommerce.Web.Models.Category.CategoryTopicModel
+
+@using Microsoft.AspNetCore.Identity
+@using NetCoreEcommerce.Data.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<div class="shop-main-area">
+    <div class="container container-default custom-area">
+        <div class="row flex-row-reverse">
+            <div class="col-lg-9 col-12 col-custom widget-mt">
+                <div class="shop_toolbar_wrapper">
+                    <div class="shop_toolbar_btn">
+                        <button data-role="grid_3" type="button" class="active btn-grid-3" data-bs-toggle="tooltip" title="3"><i class="fa fa-th"></i></button>
+                        <button data-role="grid_list" type="button" class="btn-list" data-bs-toggle="tooltip" title="List"><i class="fa fa-th-list"></i></button>
+                    </div>
+                </div>
+                <div class="row shop_wrapper grid_3">
+                    @if (Model.Products.Any())
+                    {
+                        @foreach (var product in Model.Products)
+                        {
+                                <div class="col-md-6 col-sm-6 col-lg-4 col-custom product-area">
+                                    <div class="single-product position-relative">
+                                        <div class="product-image">
+                                            <a class="d-block" asp-controller="Product" asp-action="Index" asp-route-id="@product.Id">
+                                                <img src="@product.ImageUrl" alt="" class="product-image-1 w-100">
+                                                <img src="@product.ImageUrl" alt="" class="product-image-2 position-absolute w-100">
+                                            </a>
+                                        </div>
+                                        <div class="product-content">
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                            </div>
+                                            <div class="product-title">
+                                                <h4 class="title-2"> <a asp-controller="Product" asp-action="Index" asp-route-id="@product.Id">@product.Name</a></h4>
+                                            </div>
+                                            <div class="price-box">
+                                                <span class="regular-price ">@product.Price</span>
+                                            </div>
+                                        </div>
+                                        <div class="add-action d-flex position-absolute">
+                                            <a href="cart.html" title="Add To cart">
+                                                <i class="ion-bag"></i>
+                                            </a>
+                                          
+                                            <a href="#exampleModalCenter" data-bs-toggle="modal" title="Quick View">
+                                                <i class="ion-eye"></i>
+                                            </a>
+                                        </div>
+                                        <div class="product-content-listview">
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                            </div>
+                                            <div class="product-title">
+                                                <h4 class="title-2"> <a asp-controller="Product" asp-action="Index" asp-route-id="@product.Id">@product.Name</a></h4>
+                                            </div>
+                                            <div class="price-box">
+                                                <span class="regular-price ">@product.Price</span>
+                                            </div>
+                                            <div class="add-action-listview d-flex">
+                                                <a href="cart.html" title="Add To cart">
+                                                    <i class="ion-bag"></i>
+                                                </a>
+
+                                                <a href="#exampleModalCenter" data-bs-toggle="modal" title="Quick View">
+                                                    <i class="ion-eye"></i>
+                                                </a>
+                                            </div>
+                                            <p class="desc-content">
+                                                @product.ShortDescription
+                                            </p>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    }
+                                    }
+                                    else if (string.IsNullOrEmpty(@Model.SearchQuery) || string.IsNullOrWhiteSpace(Model.SearchQuery))
+                                    {
+                                    <div class="noFoods">
+                                        <h3>
+                                            No results found for @Model.SearchQuery <br />
+                                        </h3>
+                                    </div>
+
+                                    }
+                                    else if (!@Model.Products.Any())
+                                    {
+                                    <div class="noFoods">
+                                        <h3>
+                                            No results found for @Model.Category.Name <br />
+                                        </h3>
+                                    </div>
+                                    }
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-custom">
+                                    <div class="toolbar-bottom mt-30">
+                                        <nav class="pagination pagination-wrap mb-10 mb-sm-0">
+                                            <ul class="pagination">
+                                                <li class="disabled prev">
+                                                    <i class="ion-ios-arrow-thin-left"></i>
+                                                </li>
+                                                <li class="active"><a>1</a></li>
+                                                <li>
+                                                    <a href="#">2</a>
+                                                </li>
+                                                <li class="next">
+                                                    <a href="#" title="Next >>"><i class="ion-ios-arrow-thin-right"></i></a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                        <p class="desc-content text-center text-sm-right">Showing 1 - @Model.Products.Count() of @Model.Products.Count() results</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            <div class="col-lg-3 col-12 col-custom">
+                <aside class="sidebar_widget widget-mt">
+                    <div class="widget_inner">
+                        <div class="widget-list widget-mb-1">
+                            <h3 class="widget-title">Search</h3>
+                            <div class="search-box">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Search..." aria-label="Search...">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary" type="button">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-list widget-mb-1">
+                            <h3 class="widget-title">Categories</h3>
+                            <div class="sidebar-body">
+                                <ul class="sidebar-list">
+                                    @foreach (var category in Model.CategoryList)
+                                    {
+                                        <li><a asp-controller="Category" asp-action="Topic" asp-route-id="@category.Id">@category.Name</a></li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</div>

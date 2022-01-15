@@ -1,0 +1,106 @@
+﻿@model NetCoreEcommerce.Web.Models.Product.ProductIndexModel
+
+@using Microsoft.AspNetCore.Identity
+@using NetCoreEcommerce.Data.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="single-product-main-area">
+    <div class="container container-default custom-area">
+        <div class="row">
+            <div class="col-lg-5 col-custom">
+                <div class="product-details-img horizontal-tab">
+                    <div class="product-slider popup-gallery product-details_slider" data-slick-options='{
+                        "slidesToShow": 1,
+                        "arrows": false,
+                        "fade": true,
+                        "draggable": false,
+                        "swipe": false,
+                        "asNavFor": ".pd-slider-nav"
+                        }'>
+                        <div class="single-image border">
+                            <a href="assets/images/product/large-size/1.jpg">
+                                <img src="@Model.ImageUrl" alt="Product">
+                            </a>
+                        </div>
+                        <div class="single-image border">
+                            <a href="assets/images/product/large-size/2.jpg">
+                                <img src="@Model.ImageUrl" alt="Product">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="pd-slider-nav product-slider" data-slick-options='{
+                        "slidesToShow": 4,
+                        "asNavFor": ".product-details_slider",
+                        "focusOnSelect": true,
+                        "arrows" : false,
+                        "spaceBetween": 30,
+                        "vertical" : false
+                        }' data-slick-responsive='[
+                            {"breakpoint":1501, "settings": {"slidesToShow": 4}},
+                            {"breakpoint":1200, "settings": {"slidesToShow": 4}},
+                            {"breakpoint":992, "settings": {"slidesToShow": 4}},
+                            {"breakpoint":575, "settings": {"slidesToShow": 3}}
+                        ]'>
+                        <div class="single-thumb border">
+                            <img src="@Model.ImageUrl" alt="Product Thumnail">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7 col-custom">
+                <div class="product-summery position-relative">
+                    <div class="product-head mb-3">
+                        <h2 class="product-title">@Model.Name</h2>
+                    </div>
+                    <div class="price-box mb-2">
+                        <span class="regular-price">@Model.Price</span>
+                    </div>
+                    <div class="product-rating mb-3">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-o"></i>
+                        <i class="fa fa-star-o"></i>
+                    </div>
+                    <div class="sku mb-3">
+                        <span>SKU: @Model.Id</span>
+                    </div>
+                    <div class="sku mb-3">
+                        <span>Category: <a asp-controller="Category" asp-action="Topic" asp-route-id="@Model.CategoryId" class="btn btn-back">@Model.CategoryName</a></span>
+                    </div>
+                    <p class="desc-content mb-5">@Html.Raw(Model.Description)</p>
+                    <div class="quantity-with_btn mb-4">
+                        <div class="quantity">
+                            <div class="cart-plus-minus">
+                                <input class="cart-plus-minus-box" value="1" type="text">
+                                <div class="dec qtybutton">-</div>
+                                <div class="inc qtybutton">+</div>
+                            </div>
+                        </div>
+                        <div class="add-to_cart">
+                            <a class="btn netcoreecommerce-button primary-btn" asp-controller="ShoppingCart" asp-action="Add" asp-route-id="@Model.Id" asp-route-amount="@Model.Amount" asp-route-returnUrl="@Context.Request.Path">Add to cart</a>
+                        </div>
+                    </div>
+                    <div class="buy-button mb-5">
+                        <a href="#" class="btn netcoreecommerce-button-3 black-button">Buy it now</a>
+                    </div>
+                    <div class="social-share mb-4">
+                        <span>Share :</span>
+                        <a href="#"><i class="fa fa-facebook-square facebook-color"></i></a>
+                        <a href="#"><i class="fa fa-twitter-square twitter-color"></i></a>
+                        <a href="#"><i class="fa fa-linkedin-square linkedin-color"></i></a>
+                        <a href="#"><i class="fa fa-pinterest-square pinterest-color"></i></a>
+                    </div>
+                    <div class="payment">
+                        <a href="#"><img class="border" src="~/assets/images/payment/img-payment.png" alt="Payment"></a>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </div>
+</div>

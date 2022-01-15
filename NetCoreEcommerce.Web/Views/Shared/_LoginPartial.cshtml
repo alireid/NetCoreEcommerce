@@ -1,0 +1,10 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using NetCoreEcommerce.Data.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<li class="login-register-wrap d-none d-xl-flex">
+    <span><a asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Context.Request.Path">Login</a></span>
+    <span><a asp-controller="Account" asp-action="Register" asp-route-returnUrl="@Context.Request.Path">Register</a></span>
+</li>

@@ -1,0 +1,10 @@
+@model NetCoreEcommerce.Web.Models.Account.AccountSummaryModel
+
+<li class="sidemenu-wrap d-none d-lg-flex">
+    <a asp-action="Profile" asp-controller="Account">Account <i class="fa fa-caret-down"></i> </a>
+        <ul class="dropdown-sidemenu dropdown-hover-2 dropdown-language">
+        <li><a class="dropdown-item" asp-action="Profile" asp-controller="Account">Profile</a></li>
+        <li><a class="dropdown-item" asp-action="Settings" asp-controller="Account">Settings</a></li>
+        <li><a class="dropdown-item" asp-action="Logout" asp-controller="Account">Log out</a></li>
+    </ul>
+</li>

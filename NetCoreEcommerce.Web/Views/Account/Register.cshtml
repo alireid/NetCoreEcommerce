@@ -1,0 +1,78 @@
+﻿@model NetCoreEcommerce.Web.Models.Account.AccountRegisterModel
+
+<div class="login-register-area mt-no-text mb-no-text">
+    <div class="container container-default-2 custom-area">
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-custom">
+                <div class="login-register-wrapper">
+                    <div class="section-content text-center mb-5">
+                        <h2 class="title-4 mb-2">Create Account</h2>
+                        <p class="desc-content">Please Register using account detail bellow.</p>
+                    </div>
+                    <form asp-controller="Account" asp-action="Register" method="post">
+                        <div class="single-input-item mb-3">
+                            <label for="user" class="label">*First Name</label>
+                            <input id="user" asp-for="FirstName" required type="text" class="input">
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+                        <div class="single-input-item mb-3">
+                            <label for="user" class="label">*Last Name</label>
+                            <input id="user" asp-for="LastName" required type="text" class="input">
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                        <div class="single-input-item mb-3">
+                            <label for="user" class="label">*Email</label>
+                            <input id="user" asp-for="Email" required type="text" class="input">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="single-input-item mb-3">
+                            <label for="pass" class="label">*Password</label>
+                            <input id="pass" type="password" required asp-for="Password" class="input" data-type="password">
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="single-input-item mb-3">
+                            <label for="pass" class="label">*Password Confirmation</label>
+                            <input id="pass" type="password" required asp-for="PasswordConfirmation" class="input" data-type="password">
+                            <span asp-validation-for="PasswordConfirmation" class="text-danger"></span>
+                        </div>
+
+                        <div class="single-input-item mb-3">
+                            <label for="user" class="label">*Country</label>
+                            <input id="user" asp-for="Country" required type="text" class="input">
+                            <span asp-validation-for="Country" class="text-danger"></span>
+                        </div>
+                        <div class="single-input-item mb-3">
+                            <label for="user" class="label">*City</label>
+                            <input id="user" asp-for="City" required type="text" class="input">
+                            <span asp-validation-for="City" class="text-danger"></span>
+                        </div>
+                        <div class="single-input-item mb-3">
+                            <label for="user" class="label">Address 1</label>
+                            <input id="user" asp-for="AddressLine1" type="text" class="input">
+                            <span asp-validation-for="AddressLine1" class="text-danger"></span>
+                        </div>
+                        <div class="single-input-item mb-3">
+                            <label for="user" class="label">Address 2</label>
+                            <input id="user" asp-for="AddressLine2" type="text" class="input">
+                            <span asp-validation-for="AddressLine2" class="text-danger"></span>
+                        </div>
+                        <div class="single-input-item mb-3">
+                            <label for="user" class="label">*Phone Number</label>
+                            <input id="user" asp-for="PhoneNumber" required type="text" class="input">
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+                        <div class="single-input-item mb-3">
+                            <label for="user" class="label">ImageUrl</label>
+                            <input id="user" asp-for="ImageUrl" type="text" class="input">
+                            <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                        </div>
+
+                        <div class="single-input-item mb-3">
+                            <input type="submit" class="button" value="Register">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

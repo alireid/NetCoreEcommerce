@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  netcoremvcmicroservice:
+    image: ${DOCKER_REGISTRY-}netcoreecommerce
+    build:
+      context: .
+      dockerfile: NetCoreEcommerce.Web/Dockerfile

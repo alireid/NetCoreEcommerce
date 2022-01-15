@@ -1,0 +1,44 @@
+@model NetCoreEcommerce.Web.Models.Product.ProductListingModel
+
+<div class="single-item">
+    <div class="single-product position-relative">
+        <div class="product-image">
+            <a class="d-block" asp-controller="Product" asp-action="Index" asp-route-id="@Model.Id" asp-route-amount="@Model.Amount">
+                <img src="@Model.ImageUrl" alt="" class="product-image-1 w-100">
+                <img src="@Model.ImageUrl" alt="" class="product-image-2 position-absolute w-100">
+            </a>
+        </div>
+        <div class="label-product">
+            <span class="label-sale position-absolute text-uppercase text-white text-center d-block">In Stock: @Model.InStock</span>
+        </div>
+        <div class="product-content">
+            <div class="product-rating">
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star-o"></i>
+                <i class="fa fa-star-o"></i>
+            </div>
+            <div class="product-title">
+                <h4 class="title-2">
+                    <a href="product-details.html">
+                        @Model.Name
+                    </a>
+                </h4>
+            </div>
+            <div class="price-box">
+                <span class="regular-price" id="foodTotal-@(Model.GetHashCode())">@Model.Total</span>
+
+            </div>
+        </div>
+        <div class="add-action d-flex position-absolute">
+            <a href="cart.html" title="Add To cart">
+                <i class="ion-bag"></i>
+            </a>
+         
+            <a href="#exampleModalCenter" data-bs-toggle="modal" title="Quick View">
+                <i class="ion-eye"></i>
+            </a>
+        </div>
+    </div>
+</div>

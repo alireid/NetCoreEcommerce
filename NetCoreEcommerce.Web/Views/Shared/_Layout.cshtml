@@ -1,0 +1,576 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using NetCoreEcommerce.Data.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@{ var pageName = ViewContext.RouteData.Values["controller"].ToString(); }
+
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>NETCoreEcommerce 1.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <link rel="stylesheet" href="~/assets/css/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assets/css/vendor/ionicons.min.css">
+    <link rel="stylesheet" href="~/assets/css/plugins/slick.min.css">
+    <link rel="stylesheet" href="~/assets/css/plugins/animate.min.css">
+    <link rel="stylesheet" href="~/assets/css/plugins/jquery-ui.min.css">
+    <link rel="stylesheet" href="~/assets/css/plugins/nice-select.min.css">
+    <link rel="stylesheet" href="~/assets/css/plugins/magnific-popup.css">
+    <link rel="stylesheet" href="~/assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.1/css/font-awesome.css" integrity="sha512-bf5lgyUrZOfPh94XyXFK4+2062lAMQFAfxUTVkOAHZ7R3XQ0tY+TUSkbqt8sjFsq0hVMKvGT/1P39c+vKwesTQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.1/css/font-awesome.min.css" integrity="sha512-H/zVLBHVS8ZRNSR8wrNZrGFpuHDyN6+p6uaADRefLS4yZYRxfF4049g1GhT+gDExFRB5Kf9jeGr8vueDsyBhhA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="home-wrapper home-1">
+        <header class="main-header-area">
+            <div class="header-top-area">
+                <div class="container container-default-2 custom-area">
+                    <div class="row">
+                        <div class="col-12 col-custom header-top-wrapper text-center">
+                            <div class="short-desc text-white">
+                                <p>Browse our product range! </p>
+                            </div>
+                            <div class="header-top-button">
+                                <a asp-controller="Category" asp-action="Index">Shop Now</a>
+                            </div>
+                            <span class="top-close-button">X</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main-header">
+                <div class="container container-default custom-area">
+                    <div class="row">
+                        <div class="col-lg-12 col-custom">
+                            <div class="row align-items-center">
+                                <div class="col-lg-2 col-xl-2 col-sm-6 col-6 col-custom">
+                                    <div class="header-logo d-flex align-items-center">
+                                        <a asp-controller="Home" asp-action="Index">
+                                            <img class="img-full" src="~/assets/images/logo/logo.png" alt="Header Logo">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8 col-xl-7 position-static d-none d-lg-block col-custom">
+                                    <nav class="main-nav d-flex justify-content-center">
+                                        <ul class="nav">
+                                            <li>
+                                                <a asp-controller="Home" asp-action="Index">Home</a>
+                                            </li>
+
+                                            <li>
+                                                <a asp-controller="Category" asp-action="Index">
+                                                    <span class="menu-text">Shop</span>
+                                                </a>
+                                            </li>
+
+                                            @if (User.IsInRole("Admin"))
+                                            {
+                                                <li>
+                                                    <a href="#">
+                                                        <span class="menu-text">Admin</span>
+                                                        <i class="fa fa-angle-down"></i>
+                                                    </a>
+                                                    <ul class="dropdown-submenu dropdown-hover">
+                                                        <li class="nav-item">
+                                                            <a asp-controller="Account" asp-action="Index">Users</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a asp-controller="Product" asp-action="New">New Product</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a asp-controller="Category" asp-action="New">New Category</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a asp-controller="Account" asp-action="Register">New User</a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <div class="col-lg-2 col-xl-3 col-sm-6 col-6 col-custom">
+                                    <div class="header-right-area main-nav">
+                                        <ul class="nav">
+                                            @if (SignInManager.IsSignedIn(User))
+                                            {
+                                                @await Component.InvokeAsync("AccountSummary")
+                                                @await Component.InvokeAsync("ShoppingCartSummary")
+                                            }
+                                            else
+                                            {
+                                                @await Html.PartialAsync("_LoginPartial")
+                                            }
+                                            <li class="mobile-menu-btn d-lg-none">
+                                                <a class="off-canvas-btn" href="#">
+                                                    <i class="fa fa-bars"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main-header header-sticky">
+                <div class="container container-default custom-area">
+                    <div class="row">
+                        <div class="col-lg-12 col-custom">
+                            <div class="row align-items-center">
+                                <div class="col-lg-2 col-xl-2 col-sm-6 col-6 col-custom">
+                                    <div class="header-logo">
+                                        <a asp-controller="Home" asp-action="Index">
+                                            <img class="img-full" src="~/assets/images/logo/logo.png" alt="Header Logo">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8 col-xl-7 position-static d-none d-lg-block col-custom">
+                                    <nav class="main-nav d-flex justify-content-center">
+                                        <ul class="nav">
+                                            <li>
+                                                <a asp-controller="Home" asp-action="Index">Home</a>
+                                            </li>
+
+                                            <li>
+                                                <a asp-controller="Category" asp-action="Index">
+                                                    <span class="menu-text">Shop</span>
+                                                </a>
+                                            </li>
+
+                                            @if (User.IsInRole("Admin"))
+                                            {
+                                                <li>
+                                                    <a href="#">
+                                                        <span class="menu-text">Admin</span>
+                                                        <i class="fa fa-angle-down"></i>
+                                                    </a>
+                                                    <ul class="dropdown-submenu dropdown-hover">
+                                                        <li class="nav-item">
+                                                            <a asp-controller="Account" asp-action="Index">Users</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a asp-controller="Product" asp-action="New">New Product</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a asp-controller="Category" asp-action="New">New Category</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a asp-controller="Account" asp-action="Register">New User</a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <div class="col-lg-2 col-xl-3 col-sm-6 col-6 col-custom">
+                                    <div class="header-right-area main-nav">
+                                        <ul class="nav">
+                                            @if (SignInManager.IsSignedIn(User))
+                                            {
+                                                @await Component.InvokeAsync("AccountSummary")
+                                                @await Component.InvokeAsync("ShoppingCartSummary")
+                                            }
+                                            else
+                                            {
+                                                @await Html.PartialAsync("_LoginPartial")
+                                            }
+                                            <li class="mobile-menu-btn d-lg-none">
+                                                <a class="off-canvas-btn" href="#">
+                                                    <i class="fa fa-bars"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <aside class="off-canvas-wrapper" id="mobileMenu">
+                <div class="off-canvas-overlay"></div>
+                <div class="off-canvas-inner-content">
+                    <div class="btn-close-off-canvas">
+                        <i class="fa fa-times"></i>
+                    </div>
+                    <div class="off-canvas-inner">
+
+                        <div class="search-box-offcanvas">
+                            <form>
+                                <input type="text" placeholder="Search product...">
+                                <button class="search-btn"><i class="fa fa-search"></i></button>
+                            </form>
+                        </div>
+                        <div class="mobile-navigation">
+                            <nav>
+                                <ul class="mobile-menu">
+                                    <li class="menu-item-has-children">
+                                        <a href="#">Home</a>
+                                        <ul class="dropdown">
+                                            <li><a asp-controller="Home" asp-action="Index">Home Page 1</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="menu-item-has-children">
+                                        <a href="#">Shop</a>
+                                        <ul class="megamenu dropdown">
+                                            <li class="mega-title has-children">
+                                                <a href="#">Shop Layouts</a>
+                                                <ul class="dropdown">
+                                                    <li><a href="shop.html">Shop Left Sidebar</a></li>
+                                                    <li><a href="shop-right-sidebar.html">Shop Right Sidebar</a></li>
+                                                    <li><a href="shop-list-left.html">Shop List Left Sidebar</a></li>
+                                                    <li><a href="shop-list-right.html">Shop List Right Sidebar</a></li>
+                                                    <li><a href="shop-fullwidth.html">Shop Full Width</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="mega-title has-children">
+                                                <a href="#">Product Details</a>
+                                                <ul class="dropdown">
+                                                    <li><a href="product-details.html">Single Product Details</a></li>
+                                                    <li><a href="variable-product-details.html">Variable Product Details</a></li>
+                                                    <li><a href="external-product-details.html">External Product Details</a></li>
+                                                    <li><a href="gallery-product-details.html">Gallery Product Details</a></li>
+                                                    <li><a href="countdown-product-details.html">Countdown Product Details</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="mega-title has-children">
+                                                <a href="#">Others</a>
+                                                <ul class="dropdown">
+                                                    <li><a href="error404.html">Error 404</a></li>
+                                                  
+                                                    <li><a href="cart.html">Cart Page</a></li>
+                                                    <li><a href="checkout.html">Checkout Page</a></li>
+                                                   
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="menu-item-has-children ">
+                                        <a href="#">Blog</a>
+                                        <ul class="dropdown">
+                                            <li><a href="blog.html">Blog Left Sidebar</a></li>
+                                            <li><a href="blog-list-right-sidebar.html">Blog List Right Sidebar</a></li>
+                                            <li><a href="blog-list-fullwidth.html">Blog List Fullwidth</a></li>
+                                            <li><a href="blog-grid.html">Blog Grid Page</a></li>
+                                            <li><a href="blog-grid-right-sidebar.html">Blog Grid Right Sidebar</a></li>
+                                            <li><a href="blog-grid-fullwidth.html">Blog Grid Fullwidth</a></li>
+                                            <li><a href="blog-details-sidebar.html">Blog Details Sidebar Page</a></li>
+                                            <li><a href="blog-details-fullwidth.html">Blog Details Fullwidth Page</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="menu-item-has-children ">
+                                        <a href="#">Pages</a>
+                                        <ul class="dropdown">
+                                            <li><a href="frequently-questions.html">FAQ</a></li>
+                                            <li><a href="my-account.html">My Account</a></li>
+                                            <li><a href="login-register.html">login &amp; register</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <div class="header-top-settings offcanvas-curreny-lang-support">
+                            <nav>
+                                <ul class="mobile-menu">
+                                    <li class="menu-item-has-children">
+                                        <a href="#">My Account</a>
+                                        <ul class="dropdown">
+                                            <li><a href="login.html">Login</a></li>
+                                            <li><a href="Register.html">Register</a></li>
+                                        </ul>
+                                    </li>
+
+                                </ul>
+                            </nav>
+                        </div>
+                        <div class="offcanvas-widget-area">
+                            <div class="top-info-wrap text-left text-black">
+                                <ul>
+                                    <li>
+                                        <i class="fa fa-phone"></i>
+                                        <a href="info@yourdomain.com">(1245) 2456 012</a>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-envelope"></i>
+                                        <a href="info@yourdomain.com">info@yourdomain.com</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="off-canvas-widget-social">
+                                <a title="Facebook-f" href="#"><i class="fa fa-facebook-f"></i></a>
+                                <a title="Twitter" href="#"><i class="fa fa-twitter"></i></a>
+                                <a title="Linkedin" href="#"><i class="fa fa-linkedin"></i></a>
+                                <a title="Youtube" href="#"><i class="fa fa-youtube"></i></a>
+                                <a title="Vimeo" href="#"><i class="fa fa-vimeo"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </header>
+
+        @if (pageName.ToLower().Equals("home"))
+        {
+            <div class="slider-area">
+            <div class="netcoreecommerce-slider arrow-style" data-slick-options='{
+            "slidesToShow": 1,
+            "slidesToScroll": 1,
+            "infinite": true,
+            "arrows": true,
+            "dots": true,
+            "autoplay" : true,
+            "fade" : true,
+            "autoplaySpeed" : 7000,
+            "pauseOnHover" : false,
+            "pauseOnFocus" : false
+            }' data-slick-responsive='[
+            {"breakpoint":992, "settings": {
+            "slidesToShow": 1,
+            "arrows": false,
+            "dots": true
+            }}
+            ]'>
+                    <div class="slide-item slide-1 bg-position slide-bg-1 animation-style-01">
+                        <div class="slider-content">
+                            <h4 class="slider-small-title">Net Core Ecommerce</h4>
+                            <h2 class="slider-large-title">Version 1.0</h2>
+                            <div class="slider-btn">
+                                <a class="netcoreecommerce-button black-btn" asp-controller="Home" asp-action="Index">Shop Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slide-item slide-2 bg-position slide-bg-1 animation-style-01">
+                        <div class="slider-content">
+                            <h4 class="slider-small-title">Net Core Ecommerce</h4>
+                            <h2 class="slider-large-title">Version 1.0</h2>
+                            <div class="slider-btn">
+                                <a class="netcoreecommerce-button black-btn" asp-controller="Home" asp-action="Index">Shop Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="breadcrumbs-area position-relative">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <div class="breadcrumb-content position-relative section-content">
+                                <h3 class="title-3">@pageName</h3>
+                                <ul>
+                                    <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                                    <li>Page</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="container body-content flex-shrink-0">
+            @RenderBody()
+        </div>
+
+        @RenderSection("Scripts", required: false)
+
+        <div class="newsletter-area">
+            <div class="container container-default h-100 custom-area">
+                <div class="row h-100">
+                    <div class="col-lg-8 col-xl-5 offset-xl-6 offset-lg-3 col-custom">
+                        <div class="newsletter-content text-center d-flex flex-column align-items-center justify-content-center h-100">
+                            <div class="section-content">
+                                <h4 class="title-4 text-uppercase">Special <span>Offer</span> for subscription</h4>
+                                <h2 class="title-3 text-uppercase">Get instant discount for membership</h2>
+                                <p class="desc-content">Subscribe our newsletter and all latest news of our <br>latest product, promotion and offers</p>
+                            </div>
+                            <div class="newsletter-form-wrap ml-auto mr-auto">
+                                <form id="mc-form" class="mc-form d-flex position-relative">
+                                    <input type="email" id="mc-email" class="form-control email-box" placeholder="email@example.com" name="EMAIL">
+                                    <button id="mc-submit" class="btn primary-btn netcoreecommerce-button newsletter-btn position-absolute" type="submit">Subscribe</button>
+                                </form>
+                                <div class="mailchimp-alerts text-centre">
+                                    <div class="mailchimp-submitting"></div>
+                                    <div class="mailchimp-success text-success"></div>
+                                    <div class="mailchimp-error text-danger"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="support-area">
+            <div class="container container-default custom-area">
+                <div class="row">
+                    <div class="col-lg-12 col-custom">
+                        <div class="support-wrapper d-flex">
+                            <div class="support-content">
+                                <h1 class="title">Need Help ?</h1>
+                                <p class="desc-content">Call our support 24/7 at 01234-567-890</p>
+                            </div>
+                            <div class="support-button d-flex align-items-center">
+                                <a class="netcoreecommerce-button primary-btn" href="contact-us.html">Contact now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer-area">
+            <div class="footer-widget-area">
+                <div class="container container-default custom-area">
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-3 col-custom">
+                            <div class="single-footer-widget m-0">
+                                <div class="footer-logo">
+                                    <a asp-controller="Home" asp-action="Index">
+                                        <img src="~/assets/images/logo/footer.png" alt="Logo Image">
+                                    </a>
+                                </div>
+                                <p class="desc-content">NET CORE 5 E-commerce shopping cart solution version 1.0</p>
+                                <div class="social-links">
+                                    <ul class="d-flex">
+                                        <li>
+                                            <a class="border rounded-circle" href="#" title="Twitter">
+                                                <i class="fa fa-twitter"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="border rounded-circle" href="#" title="Linkedin">
+                                                <i class="fa fa-linkedin"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="border rounded-circle" href="#" title="Youtube">
+                                                <i class="fa fa-youtube"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-2 col-custom">
+                            <div class="single-footer-widget">
+                                <h2 class="widget-title">Links</h2>
+                                <ul class="widget-list">
+                                    <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                                    <li><a asp-controller="Category" asp-action="Index">Shop</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-custom">
+                            <div class="single-footer-widget">
+                                <h2 class="widget-title">Contact Information</h2>
+                                <div class="widget-body">
+                                    <address>Alasdair Reid<br/><a href="http://www.alasdair-reid.com">www.alasdair-reid.com</a></address>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright-area">
+                <div class="container custom-area">
+                    <div class="row">
+                        <div class="col-12 text-center col-custom">
+                            <div class="copyright-content">
+                                <p>NETCoreEcommerce 1.0</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <div class="modal fade netcoreecommerce-modal" id="exampleModalCenter" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <button type="button" class="close close-button" data-bs-dismiss="modal" aria-label="Close">
+                    <span class="close-icon" aria-hidden="true">x</span>
+                </button>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 text-center">
+                                <div class="product-image">
+                                    <img src="assets/images/product/1.jpg" alt="Product Image">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <div class="modal-product">
+                                    <div class="product-content">
+                                        <div class="product-title">
+                                            <h4 class="title">Product dummy name</h4>
+                                        </div>
+                                        <div class="price-box">
+                                            <span class="regular-price ">$80.00</span>
+                                            <span class="old-price"><del>$90.00</del></span>
+                                        </div>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <span>1 Review</span>
+                                        </div>
+                                        <p class="desc-content">we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame bel...</p>
+                                        <form class="d-flex flex-column w-100" action="#">
+                                            <div class="form-group">
+                                                <select class="form-control nice-select w-100">
+                                                    <option>S</option>
+                                                    <option>M</option>
+                                                    <option>L</option>
+                                                    <option>XL</option>
+                                                    <option>XXL</option>
+                                                </select>
+                                            </div>
+                                        </form>
+                                        <div class="quantity-with_btn">
+                                            <div class="quantity">
+                                                <div class="cart-plus-minus">
+                                                    <input class="cart-plus-minus-box" value="0" type="text">
+                                                    <div class="dec qtybutton">-</div>
+                                                    <div class="inc qtybutton">+</div>
+                                                </div>
+                                            </div>
+                                            <div class="add-to_cart">
+                                                <a class="btn netcoreecommerce-button primary-btn" href="cart.html">Add to cart</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="scroll-to-top" href="#">
+        <i class="ion-chevron-up"></i>
+    </a>
+    <script src="~/assets/js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="~/assets/js/vendor/jquery-migrate-3.3.2.min.js"></script>
+    <script src="~/assets/js/vendor/modernizr-2.8.3.min.js"></script>
+    <script src="~/assets/js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/js/plugins/slick.min.js"></script>
+    <script src="~/assets/js/plugins/jquery.countdown.min.js"></script>
+    <script src="~/assets/js/plugins/jquery.ajaxchimp.min.js"></script>
+    <script src="~/assets/js/plugins/jquery.nice-select.min.js"></script>
+    <script src="~/assets/js/plugins/jquery-ui.min.js"></script>
+    <script src="~/assets/js/plugins/jquery.magnific-popup.min.js"></script>
+    <script src="~/assets/js/main.js"></script>
+</body>
+</html>

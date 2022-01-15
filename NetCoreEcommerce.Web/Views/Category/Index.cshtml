@@ -1,0 +1,104 @@
+﻿@model NetCoreEcommerce.Web.Models.Category.CategoryIndexModel
+@using Microsoft.AspNetCore.Identity
+@using NetCoreEcommerce.Data.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@if (User.IsInRole("Admin"))
+{
+    <div>
+        <a class="btn btn-block btn-default" asp-controller="Category" asp-action="New">New category</a>
+    </div>
+}
+@if (!Model.CategoryList.Any())
+{
+    <h3>It looks like there are no categories right now...</h3>
+}
+else
+{
+    <div class="shop-main-area shop-fullwidth">
+        <div class="container container-default custom-area">
+            <div class="row flex-row-reverse">
+                <div class="col-12 col-custom widget-mt">
+                    <div class="shop_toolbar_wrapper">
+                        <div class="shop_toolbar_btn">
+                            <button data-role="grid_4" type="button" class="active btn-grid-4" data-bs-toggle="tooltip" title="4"><i class="fa fa-th"></i></button>
+                            <button data-role="grid_3" type="button" class="btn-grid-3" data-bs-toggle="tooltip" title="3"> <i class="fa fa-th-large"></i></button>
+                            <button data-role="grid_list" type="button" class="btn-list" data-bs-toggle="tooltip" title="List"><i class="fa fa-th-list"></i></button>
+                        </div>
+                    </div>
+                    <div class="row shop_wrapper grid_4">
+                        @foreach (var category in Model.CategoryList)
+                        {
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-custom product-area">
+                                <div class="single-product position-relative">
+                                    <div class="product-image">
+                                        <a class="d-block" asp-controller="Category" asp-action="Topic" asp-route-id="@category.Id">
+                                            <img src=" @category.ImageUrl" alt="" class="product-image-1 w-100">
+                                        </a>
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        </div>
+                                        <div class="product-title">
+                                            <h4 class="title-2"> <a asp-controller="Category" asp-action="Topic" asp-route-id="@category.Id">@category.Name</a></h4>
+                                        </div>
+                                    </div>
+                                    <div class="product-content-listview">
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        </div>
+                                        <div class="product-title">
+                                            <h4 class="title-2"> @category.Name</h4>
+                                        </div>
+                                        <div class="add-action-listview d-flex">
+                                            <a href="cart.html" title="Add To cart">
+                                                <i class="ion-bag"></i>
+                                            </a>
+                                            <a href="#exampleModalCenter" data-bs-toggle="modal" title="Quick View">
+                                                <i class="ion-eye"></i>
+                                            </a>
+                                        </div>
+                                        <p class="desc-content">
+                                            @category.Description
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-custom">
+                            <div class="toolbar-bottom mt-30">
+                                <nav class="pagination pagination-wrap mb-10 mb-sm-0">
+                                    <ul class="pagination">
+                                        <li class="disabled prev">
+                                            <i class="ion-ios-arrow-thin-left"></i>
+                                        </li>
+                                        <li class="active"><a>1</a></li>
+                                        <li>
+                                            <a href="#">2</a>
+                                        </li>
+                                        <li class="next">
+                                            <a href="#" title="Next >>"><i class="ion-ios-arrow-thin-right"></i></a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <p class="desc-content text-center text-sm-right">Showing 1 - @Model.CategoryList.Count() of @Model.CategoryList.Count() result</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

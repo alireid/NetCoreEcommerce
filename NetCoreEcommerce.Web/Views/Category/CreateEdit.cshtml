@@ -1,0 +1,57 @@
+﻿@model NetCoreEcommerce.Web.Models.Category.CategoryListingModel
+
+<div class="login-register-area mt-no-text mb-no-text">
+    <div class="container container-default-2 custom-area">
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-custom">
+                <div class="login-register-wrapper">
+                    <div class="section-content text-center mb-5">
+                        <h2 class="title-4 mb-2">New category</h2>
+                        <p class="desc-content"></p>
+                    </div>
+                    <form asp-action="@ViewBag.Action" method="post">
+                        <div class="single-input-item mb-3">
+                            <label asp-for="Name" class="col-md-3 control-label"></label>
+                            <div class="col-md-6">
+                                <input asp-for="Name" class="form-control" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="single-input-item mb-3">
+                            <label asp-for="Description" class="col-md-3 control-label"></label>
+                            <div class="col-md-6">
+                                <textarea asp-for="Description" class="form-control"></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="single-input-item mb-3">
+                            <label asp-for="ImageUrl" class="col-md-3 control-label"></label>
+                            <div class="col-md-6">
+                                <input onkeyup="readUrl(this,'CategoryImage');" asp-for="ImageUrl" class="form-control" />
+                                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="single-input-item mb-3">
+                            <div class="btn-group col-md-4">
+                                @if (ViewBag.ActionText == "change")
+                                {
+                                    <a class="btn netcoreecommerce-button-2 primary-color" asp-action="@ViewBag.CancelAction" asp-controller="Category" asp-route-id="@ViewBag.RouteId">Cancel</a>
+                                }
+                                else
+                                {
+                                    <a class="btn netcoreecommerce-button-2 primary-color" asp-action="@ViewBag.CancelAction" asp-controller="Category">Cancel</a>
+                                }
+                            </div>
+                            <div class="btn-group col-md-offset-4 col-md-4">
+                                <input class="btn netcoreecommerce-button-2 primary-color" type="submit" value="@ViewBag.SubmitText" />
+                            </div>
+                        </div>
+                        <div class="single-input-item mb-3">        
+                                <img id="CategoryImage" src="@Url.Content(Model?.ImageUrl)" alt="Invalid Url" width="300" heigth="300" />
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
