@@ -4,8 +4,8 @@
 Forthcoming multi-tier MVC ecommerce product in .NET Core
 
 ## Features
-- .NET CORE MVC Application
-- Technology specific DB selection, MSSQL/PostgreSQL/SQLLite
+- .NET CORE / EF CORE MVC Application
+- Technology specific DB selection, Microsoft SQL server/PostgreSQL/SQLite
 - AspNetCore Identity Management
 - Auto seeded database
 - NetCoreEcommerce.Data - Entity Framework Core Object–relational mapping 
@@ -27,4 +27,4 @@ Forthcoming multi-tier MVC ecommerce product in .NET Core
 
 
 ## Authors
-- [@alireid](https://www.alasdairreid.com)
+- [@alireid](http://www.alasdair-reid.com)
